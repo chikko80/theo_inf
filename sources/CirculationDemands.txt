@@ -1,0 +1,17 @@
+# 6 Knotendefinitionen mit Demand
+knoten A -7
+knoten B -8
+knoten C 10
+knoten D -6
+knoten E 0
+knoten F 11
+
+# Kantendefinitionen 
+kante A B 10
+kante A C 3
+kante B C 6
+kante B E 7
+kante D C 7
+kante E D 4
+kante D F 9
+kante E F 4

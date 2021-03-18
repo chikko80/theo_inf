@@ -1,0 +1,99 @@
+# Knoten
+knoten 1
+knoten 2
+knoten 3
+knoten 4
+knoten 5
+knoten 6
+knoten 7
+knoten 8
+knoten 9
+knoten 10
+knoten 11
+knoten 12
+knoten 13
+knoten 14
+knoten 15
+knoten 16
+knoten 17
+knoten 18
+knoten 19
+knoten 20
+knoten S
+knoten T
+
+# Kantendefinitionen 
+kante S 1 35
+kante S 2 40
+kante S 3 37
+kante S 4 98
+kante 20 T 16
+kante 19 T 41
+kante 18 T 22
+kante 17 T 32
+kante 1 13 8
+kante 1 16 4
+kante 2 5 10
+kante 2 10 7
+kante 1 3 19
+kante 3 12 15
+kante 3 14 6
+kante 2 4 11
+kante 4 12 19
+kante 4 6 9
+kante 4 11 2
+kante 4 15 7
+kante 5 12 15
+kante 5 13 14
+kante 5 17 11
+kante 7 6 14
+kante 9 6 14
+kante 6 11 4
+kante 12 6 3
+kante 6 18 20
+kante 3 7 4
+kante 5 7 1
+kante 7 10 12
+kante 7 11 18
+kante 7 20 14
+kante 9 8 4
+kante 11 8 8
+kante 8 12 10
+kante 3 9 20
+kante 6 9 4
+kante 9 14 18
+kante 1 10 13
+kante 6 10 8
+kante 10 20 9
+kante 1 11 10
+kante 5 11 3
+kante 15 11 12
+kante 11 20 5
+kante 7 12 8
+kante 12 18 6
+kante 9 13 6
+kante 10 13 13
+kante 12 13 6
+kante 1 14 17
+kante 10 14 20
+kante 11 14 15
+kante 16 14 7
+kante 14 18 12
+kante 3 15 3
+kante 9 15 19
+kante 10 15 18
+kante 12 15 17
+kante 14 15 6
+kante 4 16 12
+kante 5 16 1
+kante 9 16 9
+kante 10 16 7
+kante 9 17 9
+kante 17 19 2
+kante 7 18 10
+kante 9 18 14
+kante 11 19 2
+kante 16 19 7
+kante 5 20 11
+kante 8 20 14
+ 
