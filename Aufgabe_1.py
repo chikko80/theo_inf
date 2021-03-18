@@ -4,7 +4,7 @@ def main():
     pass
 
 
-def parster():
+def parser():
     pass
 
 
