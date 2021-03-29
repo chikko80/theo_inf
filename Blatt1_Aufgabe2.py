@@ -6,9 +6,44 @@ import networkx as nx
 
 def main():
 
-    # two_a()
-    two_b()
-    # two_c()
+    path1 = "sources/Euler1.txt"
+    path2 = "sources/Euler2.txt"
+    path3 = "sources/Dijkstra.txt"
+    path4 = "sources/sicher_kein_kreis.txt"
+
+    graph2 = build_graph(path2)
+
+    two_a(graph2)
+    two_b(graph2)
+    two_c(graph2)
+
+def build_graph(path):
+    graph = nx.Graph()
+    node_list, edge_list = util.parser(path, without_data=True)
+
+    for node in node_list:
+        graph.add_node(node.name)
+
+    for edge in edge_list:
+        graph.add_edge(edge.first_node, edge.second_node, weight=edge.weight)
+    return graph
+
+
+def two_a(graph):
+    """
+    if all the vertices of a graph have even degree,
+    then the graph has an Euler circuit,
+    and if there are exactly two vertices with odd degree,
+        the graph has an Euler path.
+    """
+
+    util.draw_graph_with_labels(graph, simple=True)
+
+    # gibt uns degree für jeden knoten in liste als tuple
+    degrees = graph.degree()
+    print(degrees)
+    print("Have Euler Circuit: ", have_euler_circuit(degrees))
+    print("Have Euler Path: ", have_euler_path(degrees))
 
 
 def have_euler_circuit(degrees):
@@ -16,7 +51,6 @@ def have_euler_circuit(degrees):
         if degree[1] % 2 != 0:
             return False
     return True
-
 
 def have_euler_path(degrees):
     odd_degrees = 0
@@ -31,107 +65,38 @@ def have_euler_path(degrees):
     return False
 
 
-def two_a():
-    """
-    if all the vertices of a graph have even degree,
-    then the graph has an Euler circuit,
-    and if there are exactly two vertices with odd degree,
-        the graph has an Euler path.
-    """
-    euler1 = "sources/Euler1.txt"
-    euler2 = "sources/Euler2.txt"
-
-    def check_euler(path):
-        graph = nx.Graph()
-        node_list, edge_list = util.parser(path, without_data=True)
-
-        for node in node_list:
-            graph.add_node(node.name)
-
-        for edge in edge_list:
-            graph.add_edge(edge.first_node, edge.second_node, weight=edge.weight)
-
-        util.draw_graph_with_labels(graph, simple=True)
-
-        # gibt uns degree für jeden knoten in liste als tuple
-        degrees = graph.degree()
-        print(degrees)
-        print("Have Euler Circuit: ", have_euler_circuit(degrees))
-        print("Have Euler Path: ", have_euler_path(degrees))
-
-    check_euler(euler1)
-    check_euler(euler2)
-
-
-def two_b():
+def two_b(graph):
     """
     defintion of circuit: closed trial with visited edges >= 3
     """
-    graph1 = "sources/Euler1.txt"
-    graph2 = "sources/Euler2.txt"
-    graph2 = "sources/Dijkstra.txt"
 
-    def print_dfs(path):
-        graph = nx.Graph()
-        node_list, edge_list = util.parser(path, without_data=True)
+    # util.draw_graph_with_labels(graph, simple=True)
+    dfs_result = list(nx.dfs_edges(graph,source='A'))
 
-        for node in node_list:
-            graph.add_node(node.name)
-
-        for edge in edge_list:
-            graph.add_edge(edge.first_node, edge.second_node, weight=edge.weight)
-
-        # util.draw_graph_with_labels(graph, simple=True)
-        dfs_result = list(nx.dfs_edges(graph,source='A'))
-        print(dfs_result)
-
-        util.draw_graph_with_labels(nx.dfs_tree(graph,source="A"), simple=True)
-
-    print_dfs(graph1)
+    util.draw_graph_with_labels(nx.dfs_tree(graph,source="A"), simple=True)
 
 
 
-def two_c():
+def two_c(graph):
     """
     defintion of circuit: closed trial with visited edges >= 3
     """
-    graph1 = "sources/Euler1.txt"
-    graph2 = "sources/Euler2.txt"
-    graph3 = "sources/Dijkstra.txt"
-    graph4 = "sources/sicher_kein_kreis.txt"
-
-    graph_list = [graph1,graph2,graph3,graph4]
-
-    def print_cycles(path):
-        graph = nx.Graph()
-        node_list, edge_list = util.parser(path, without_data=True)
-
-        for node in node_list:
-            graph.add_node(node.name)
-
-        for edge in edge_list:
-            graph.add_edge(edge.first_node, edge.second_node, weight=edge.weight)
 
         # util.draw_graph_with_labels(graph, simple=True)
 
-        print(isCyclic(graph)) # eigener algorithmus true oder false
-        try:
-            print(nx.find_cycle(graph)) # findet einen kreis
-        except:
-            print('kein kreis gefunden')
-        print(nx.cycle_basis(graph)) # findet alle kreise
+    print('Hat Zyklus: 'isCyclic(graph)) # eigener algorithmus true oder false
+    try:
+        print('Ein möglicher Kreis: 'nx.find_cycle(graph)) # findet einen kreis
+    except:
+        print('kein kreis gefunden')
+    print('Alle möglichen Pfade: 'nx.cycle_basis(graph)) # findet alle kreise
 
-    for graph in graph_list:
-        print(graph)
-        print_cycles(graph)
-        print()
 
 
 def isCyclicUtil(graph,node, visited, parent):
 
     # Mark the current node as visited
     visited.append(node)
-
     for neighbor_node in graph.neighbors(node):
 
         if neighbor_node not in visited:
