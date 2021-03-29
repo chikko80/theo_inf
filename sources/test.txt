@@ -1,0 +1,9 @@
+# 5 Knotendefinitionen, A bis E
+knoten A
+knoten B
+knoten C
+
+# Kantendefinitionen 
+kante A B
+kante B C
+
