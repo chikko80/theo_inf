@@ -95,7 +95,9 @@ def two_c():
     graph1 = "sources/Euler1.txt"
     graph2 = "sources/Euler2.txt"
     graph3 = "sources/Dijkstra.txt"
-    graph4 = "sources/test.txt"
+    graph4 = "sources/sicher_kein_kreis.txt"
+
+    graph_list = [graph1,graph2,graph3,graph4]
 
     def print_cycles(path):
         graph = nx.Graph()
@@ -107,38 +109,32 @@ def two_c():
         for edge in edge_list:
             graph.add_edge(edge.first_node, edge.second_node, weight=edge.weight)
 
-        # print(graph.nodes())
-        # print(list(nx.dfs_edges(graph,source='A')))
         # util.draw_graph_with_labels(graph, simple=True)
-        print(isCyclic(graph))
-        # detect_cycles(graph)
-        # print(nx.find_cycle(graph))
-        # print(nx.cycle_basis(graph))
-        # print(nx.simple_cycles(graph))
 
-    print_cycles(graph4)
+        print(isCyclic(graph)) # eigener algorithmus true oder false
+        try:
+            print(nx.find_cycle(graph)) # findet einen kreis
+        except:
+            print('kein kreis gefunden')
+        print(nx.cycle_basis(graph)) # findet alle kreise
 
-# A recursive function that uses
-# visited[] and parent to detect
-# cycle in subgraph reachable from vertex v.
+    for graph in graph_list:
+        print(graph)
+        print_cycles(graph)
+        print()
+
+
 def isCyclicUtil(graph,node, visited, parent):
 
     # Mark the current node as visited
-    visited[node] = True
+    visited.append(node)
 
-    # Recur for all the vertices
-    # adjacent to this vertex
     for neighbor_node in graph.neighbors(node):
 
-        # If the node is not
-        # visited then recurse on it
-        if visited[neighbor_node] == False:
+        if neighbor_node not in visited:
             if isCyclicUtil(graph,neighbor_node, visited, node):
                 return True
-        # If an adjacent vertex is
-        # visited and not parent
-        # of current vertex,
-        # then there is a cycle
+        # wenn visited aber nicht parent 
         elif parent != neighbor_node:
             return True
 
@@ -148,29 +144,13 @@ def isCyclicUtil(graph,node, visited, parent):
 # contains a cycle, else false.
 def isCyclic(graph):
 
-    # Mark all the vertices
-    # as not visited
-    visited = generate_visted_dict(graph.nodes()) 
-
-    # Call the recursive helper
-    # function to detect cycle in different
-    # DFS trees
+    visited = [] 
     for node in graph.nodes():
-
-        # Don't recur for u if it
-        # is already visited
-        if visited[node] == False:
+        if node not in visited:
             if (isCyclicUtil(graph,node, visited, -1)) == True:
                 return True
 
     return False
-
-
-def generate_visted_dict(nodes):
-    new_dict = {}
-    for node in nodes:
-        new_dict[node] = False
-    return new_dict
 
 
 if __name__ == "__main__":
