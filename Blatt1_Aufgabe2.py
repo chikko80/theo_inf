@@ -7,8 +7,8 @@ import networkx as nx
 def main():
 
     # two_a()
-    # two_b()
-    two_c()
+    two_b()
+    # two_c()
 
 
 def have_euler_circuit(degrees):
@@ -81,11 +81,14 @@ def two_b():
         for edge in edge_list:
             graph.add_edge(edge.first_node, edge.second_node, weight=edge.weight)
 
-        util.draw_graph_with_labels(graph, simple=True)
-        print(list(nx.dfs_edges(graph)))
-        util.draw_graph_with_labels(nx.dfs_tree(graph), simple=True)
+        # util.draw_graph_with_labels(graph, simple=True)
+        dfs_result = list(nx.dfs_edges(graph,source='A'))
+        print(dfs_result)
+
+        util.draw_graph_with_labels(nx.dfs_tree(graph,source="A"), simple=True)
 
     print_dfs(graph1)
+
 
 
 def two_c():
