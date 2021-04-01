@@ -55,3 +55,15 @@ def parser(path,without_data=False):
             pass
 
     return node_list, edge_list
+
+
+def build_graph(path):
+    graph = nx.Graph()
+    node_list, edge_list = parser(path, without_data=True)
+
+    for node in node_list:
+        graph.add_node(node.name)
+
+    for edge in edge_list:
+        graph.add_edge(edge.first_node, edge.second_node, weight=edge.weight)
+    return graph
