@@ -11,11 +11,11 @@ def main():
     path3 = "sources/Dijkstra.txt"
     path4 = "sources/sicher_kein_kreis.txt"
 
-    graph2 = util.build_graph(path2)
+    graph4 = util.build_graph(path4)
 
-    two_a(graph2)
-    two_b(graph2)
-    two_c(graph2)
+    # two_a(graph2)
+    # two_b(graph1)
+    two_c(graph4)
 
 
 
@@ -64,6 +64,7 @@ def two_b(graph):
     dfs_result = list(nx.dfs_edges(graph,source='A'))
     print('2b) ', dfs_result)
 
+    util.draw_graph_with_labels(graph,simple=True)
     util.draw_graph_with_labels(nx.dfs_tree(graph,source="A"), simple=True)
 
 
@@ -75,13 +76,16 @@ def two_c(graph):
 
         # util.draw_graph_with_labels(graph, simple=True)
 
+
     print('2c) Hat Zyklus: ', isCyclic(graph)) # eigener algorithmus true oder false
     try:
-        print('2c) nEin möglicher Kreis: ' , nx.find_cycle(graph)) # findet einen kreis
+        print('2c) Ein möglicher Kreis: ' , nx.find_cycle(graph)) # findet einen kreis
     except:
-        print('2c) nkein kreis gefunden')
-    print('2c) nAlle möglichen Pfade: ', nx.cycle_basis(graph)) # findet alle kreise
+        print('2c) kein kreis gefunden')
+    print('2c) Alle möglichen Pfade: ', nx.cycle_basis(graph)) # findet alle kreise
 
+
+    util.draw_graph_with_labels(graph,simple=True)
 
 
 def isCyclicRecursive(graph,node, visited, parent):
