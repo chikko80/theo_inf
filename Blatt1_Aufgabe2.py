@@ -18,7 +18,6 @@ def main():
     two_c(graph4)
 
 
-
 def two_a(graph):
     """
     if all the vertices of a graph have even degree,
@@ -42,6 +41,7 @@ def have_euler_circuit(degrees):
             return False
     return True
 
+
 def have_euler_path(degrees):
     odd_degrees = 0
     for degree in degrees:
@@ -61,12 +61,11 @@ def two_b(graph):
     """
 
     # util.draw_graph_with_labels(graph, simple=True)
-    dfs_result = list(nx.dfs_edges(graph,source='A'))
-    print('2b) ', dfs_result)
+    dfs_result = list(nx.dfs_edges(graph, source="A"))
+    print("2b) ", dfs_result)
 
-    util.draw_graph_with_labels(graph,simple=True)
-    util.draw_graph_with_labels(nx.dfs_tree(graph,source="A"), simple=True)
-
+    util.draw_graph_with_labels(graph, simple=True)
+    util.draw_graph_with_labels(nx.dfs_tree(graph, source="A"), simple=True)
 
 
 def two_c(graph):
@@ -74,42 +73,40 @@ def two_c(graph):
     defintion of circuit: closed trial with visited edges >= 3
     """
 
-        # util.draw_graph_with_labels(graph, simple=True)
+    # util.draw_graph_with_labels(graph, simple=True)
 
-
-    print('2c) Hat Zyklus: ', isCyclic(graph)) # eigener algorithmus true oder false
+    print("2c) Hat Zyklus: ", isCyclic(graph))  # eigener algorithmus true oder false
     try:
-        print('2c) Ein möglicher Kreis: ' , nx.find_cycle(graph)) # findet einen kreis
+        print("2c) Ein möglicher Kreis: ", nx.find_cycle(graph))  # findet einen kreis
     except:
-        print('2c) kein kreis gefunden')
-    print('2c) Alle möglichen Pfade: ', nx.cycle_basis(graph)) # findet alle kreise
+        print("2c) kein kreis gefunden")
+    print("2c) Alle möglichen Pfade: ", nx.cycle_basis(graph))  # findet alle kreise
+
+    util.draw_graph_with_labels(graph, simple=True)
 
 
-    util.draw_graph_with_labels(graph,simple=True)
+def isCyclicRecursive(graph, node, visited, parent):
 
-
-def isCyclicRecursive(graph,node, visited, parent):
-
-    visited.append(node) # Makiere aktuellen knoten als besucht
-    for neighbor_node in graph.neighbors(node): # schaue von aktuellem knoten alle nachbarn an
-
-        if neighbor_node not in visited: # wenn der nachbar noch nicht besucht rufe funktion wieder auf
-            if isCyclicRecursive(graph,neighbor_node, visited, node): # mit nachbar knoten und der aktuellen als parent
+    visited.append(node)  # Makiere aktuellen knoten als besucht
+    for neighbor_node in graph.neighbors(node):  # schaue von aktuellem knoten alle nachbarn an
+        if neighbor_node not in visited:
+            if isCyclicRecursive(graph, neighbor_node, visited, node):  # mit nachbar knoten und der aktuellen als parent
                 return True
-        # wenn visited aber nicht parent 
-        elif parent != neighbor_node: # wenn der knoten schon besucht ist aber der nach nachbar nicht der aktuelle parent ist haben wir einen kreis
+        # wenn visited aber nicht parent
+        elif (parent != neighbor_node):  # wenn der knoten schon besucht ist aber der nach nachbar nicht der aktuelle parent ist haben wir einen kreis
             return True
 
     return False
+
 
 # Returns true if the graph
 # contains a cycle, else false.
 def isCyclic(graph):
 
-    visited = [] 
-    for node in graph.nodes(): # Schaue alle knoten an
-        if node not in visited: # wenn der knoten nicht besucht wurde, rufe recursive neue funktion auf
-            if (isCyclicRecursive(graph,node, visited, -1)) == True: # übergebe graph, aktuellen knoten, und visted
+    visited = []
+    for node in graph.nodes():  # Schaue alle knoten an
+        if (node not in visited):  # wenn der knoten nicht besucht wurde, rufe recursive neue funktion auf
+            if (isCyclicRecursive(graph, node, visited, -1)) == True:  # übergebe graph, aktuellen knoten, und visted
                 return True
 
     return False
