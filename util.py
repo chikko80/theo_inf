@@ -11,7 +11,7 @@ class Edge:
     def __init__(self, first_node, second_node, weight):
         self.first_node = first_node
         self.second_node = second_node
-        self.weight = weight
+        self.weight = int(weight)
 
 
 def draw_graph_with_labels(graph,simple=False):
@@ -57,9 +57,9 @@ def parser(path,without_data=False):
     return node_list, edge_list
 
 
-def build_graph(path):
+def build_graph(path, without_data=True):
     graph = nx.Graph()
-    node_list, edge_list = parser(path, without_data=True)
+    node_list, edge_list = parser(path, without_data=without_data)
 
     for node in node_list:
         graph.add_node(node.name)

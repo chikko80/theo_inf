@@ -11,11 +11,11 @@ def main():
     path3 = "sources/Dijkstra.txt"
     path4 = "sources/sicher_kein_kreis.txt"
 
-    graph4 = util.build_graph(path4)
+    graph2 = util.build_graph(path2)
 
     # two_a(graph2)
     # two_b(graph1)
-    two_c(graph4)
+    two_c(graph2)
 
 
 def two_a(graph):
