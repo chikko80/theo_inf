@@ -16,8 +16,8 @@ def main():
         print("Libary Path: ", nx.dijkstra_path(graph, source, dest))
         print("Our Implementation: ", three_a(graph, source, dest))
 
-    # test_dijkstra(graph1, "A", "D")
-    # test_dijkstra(graph1, "H", "B")
+    test_dijkstra(graph1, "A", "D")
+    test_dijkstra(graph1, "H", "B")
     three_b(graph1)
 
 
@@ -25,35 +25,6 @@ def three_a(graph, origin, destination):
     """"""
     # util.draw_graph_with_labels(graph, simple=True)
     return shortest_path(graph, origin, destination)
-
-
-def three_b(graph):
-    """
-    defintion of circuit: closed trial with visited edges >= 3
-
-    """
-    kruskal(graph)
-
-
-def kruskal(graph):
-    weight_dict = {}
-    for edge in graph.edges:
-        weight_dict[edge] = graph.get_edge_data(*edge)["weight"]
-
-    sorted_weight_dict = dict(sorted(weight_dict.items(), key=lambda item: item[1]))
-
-    min_span = nx.Graph()
-    for node in list(min_span.nodes):
-        min_span.add_node(node.name)
-
-    for edge, weight in sorted_weight_dict.items():
-        min_span.add_edge(*edge, weight=weight)
-        try:
-            if nx.find_cycle(min_span):
-                min_span.remove_edge(*edge)
-        except nx.exception.NetworkXNoCycle:
-            pass
-    util.draw_graph_with_labels(min_span, simple=False)
 
 
 def shortest_path(graph, origin, destination):
@@ -99,7 +70,36 @@ def dijkstra(graph, initial):
                 visited[edge] = weight
                 path[edge] = min_node
 
+    print("Visited: ", visited, "Path: ", path)
+
     return visited, path
+
+
+def three_b(graph):
+    """
+    defintion of circuit: closed trial with visited edges >= 3
+
+    """
+    kruskal(graph)
+
+
+def kruskal(graph):
+    weight_dict = {}
+    for edge in graph.edges:
+        weight_dict[edge] = graph.get_edge_data(*edge)["weight"]
+
+    sorted_weight_dict = dict(sorted(weight_dict.items(), key=lambda item: item[1]))
+
+    min_span = nx.Graph()
+
+    for edge, weight in sorted_weight_dict.items():
+        min_span.add_edge(*edge, weight=weight)
+        try:
+            if nx.find_cycle(min_span):
+                min_span.remove_edge(*edge)
+        except nx.exception.NetworkXNoCycle:
+            pass
+    util.draw_graph_with_labels(min_span, simple=False)
 
 
 if __name__ == "__main__":

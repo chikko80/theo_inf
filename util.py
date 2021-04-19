@@ -2,31 +2,35 @@ import networkx as nx
 import matplotlib as plt
 import pylab
 
+
 class Node:
     def __init__(self, name, data):
         self.name = name
         self.data = data
 
+
 class Edge:
-    def __init__(self, first_node, second_node, weight):
+    def __init__(self, first_node, second_node, weight, flow=None, capacity=None):
         self.first_node = first_node
         self.second_node = second_node
-        self.weight = int(weight)
+        self.weight = int(weight) if weight else None
+        self.flow = int(flow) if type(flow) == int else None
+        self.capacity = int(capacity) if capacity else None
 
 
-def draw_graph_with_labels(graph,simple=False):
+def draw_graph_with_labels(graph, simple=False, flow_network=False):
     if simple:
         nx.draw(graph, with_labels=True)
         pylab.show()
     else:
-        pos = nx.spring_layout(graph,seed=17)
-        nx.draw(graph,pos, with_labels=True)
-        edge_labels=dict([((u,v,),d['weight'])
-        for u,v,d in graph.edges(data=True)])
-        nx.draw_networkx_edge_labels(graph,pos,edge_labels=edge_labels)
+        pos = nx.spring_layout(graph, seed=17)
+        nx.draw(graph, pos, with_labels=True)
+        edge_labels = dict( [ ( ( u, v,), d["capacity"],) for u, v, d in graph.edges(data=True) ])
+        nx.draw_networkx_edge_labels(graph, pos, edge_labels=edge_labels)
         pylab.show()
 
-def parser(path,without_data=False):
+
+def parser(path, without_data, flow_network):
 
     with open(path, mode="r", encoding="utf-8") as stream:
         lines = stream.readlines()
@@ -37,17 +41,18 @@ def parser(path,without_data=False):
     for line in lines:
         if line.startswith("knoten"):
             name = line.split(" ")[1].strip()
-            if without_data:
-                node_list.append(Node(name, None))
-            else:
-                data = line.split(" ")[2].strip()
-                node_list.append(Node(name, data))
+            node_list.append(Node(name, None))
 
         elif line.startswith("kante"):
             first_node = line.split(" ")[1].strip()
             second_node = line.split(" ")[2].strip()
             if without_data:
                 edge_list.append(Edge(first_node, second_node, None))
+            if flow_network:
+                weight = line.split(" ")[3].strip()
+                edge_list.append(
+                    Edge(first_node, second_node, None, flow=0, capacity=weight)
+                )
             else:
                 weight = line.split(" ")[3].strip()
                 edge_list.append(Edge(first_node, second_node, weight))
@@ -57,13 +62,19 @@ def parser(path,without_data=False):
     return node_list, edge_list
 
 
-def build_graph(path, without_data=True):
-    graph = nx.Graph()
-    node_list, edge_list = parser(path, without_data=without_data)
+def build_graph(path, without_data=True, flow_network=False):
+    if flow_network:
+        graph = nx.DiGraph()
+    else:
+        graph = nx.Graph()
+    node_list, edge_list = parser(path, without_data, flow_network)
 
     for node in node_list:
         graph.add_node(node.name)
 
     for edge in edge_list:
-        graph.add_edge(edge.first_node, edge.second_node, weight=edge.weight)
+        if flow_network:
+            graph.add_edge( edge.first_node, edge.second_node, flow=edge.flow, capacity=edge.capacity)
+        else:
+            graph.add_edge(edge.first_node, edge.second_node, weight=edge.weight)
     return graph
