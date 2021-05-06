@@ -22,12 +22,13 @@ def decorator(func):
 
 
 def print_colored_line(color):
-    cprint("--------------------------------------------------------------------------", color)
+    cprint( "---------------------------------------------------------------------------------------------", color)
+
 
 def print_header(message, color):
-    cprint("--------------------------------------------------------------------------", color)
+    cprint( "---------------------------------------------------------------------------------------------", color)
     cprint(message, color)
-    cprint("--------------------------------------------------------------------------", color)
+    cprint( "---------------------------------------------------------------------------------------------", color)
 
 
 def main():
@@ -36,22 +37,23 @@ def main():
     path2 = "sources/Dijkstra10knoten.txt"
 
     graph1 = util.build_graph(path1, without_data=True)
-    graph2 = util.build_graph(path2, without_data=False)
-
     greedy_col(graph1)
+    graph1 = util.build_graph(path1, without_data=True)
     greedy_col(graph1, randomize=True)
+    graph1 = util.build_graph(path1, without_data=True)
     opt_solution(graph1)
 
+    graph2 = util.build_graph(path2, without_data=False)
     greedy_col(graph2)
+    graph2 = util.build_graph(path2, without_data=False)
     greedy_col(graph2, randomize=True)
+    graph2 = util.build_graph(path2, without_data=False)
     opt_solution(graph2)
 
 
 @decorator
 def greedy_col(graph, randomize=False):
     # util.draw_graph_with_labels(graph, simple=True)
-    for node in graph.nodes():
-        graph.nodes[node]["color"] = "inf"
 
     if randomize:
         list_order = list(graph.nodes())
@@ -76,6 +78,9 @@ def greedy_col(graph, randomize=False):
 
 
 def greedy_col_inner(graph, list_order):
+    for node in graph.nodes():
+        graph.nodes[node]["color"] = "inf"
+
     max_color = 0
     for node in list_order:
         color_set = set()
