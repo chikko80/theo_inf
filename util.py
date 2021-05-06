@@ -48,7 +48,7 @@ def parser(path, without_data, flow_network):
             second_node = line.split(" ")[2].strip()
             if without_data:
                 edge_list.append(Edge(first_node, second_node, None))
-            if flow_network:
+            elif flow_network:
                 weight = line.split(" ")[3].strip()
                 edge_list.append(
                     Edge(first_node, second_node, None, flow=0, capacity=weight)
@@ -58,7 +58,6 @@ def parser(path, without_data, flow_network):
                 edge_list.append(Edge(first_node, second_node, weight))
         else:
             pass
-
     return node_list, edge_list
 
 
