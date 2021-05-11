@@ -37,11 +37,13 @@ def main():
     path2 = "sources/Dijkstra10knoten.txt"
 
     graph1 = util.build_graph(path1, without_data=True)
-    greedy_col(graph1)
+    greedy_col(graph1) # Normaler Greedy_Coloring A, B, C, D, E
+    
     graph1 = util.build_graph(path1, without_data=True)
-    greedy_col(graph1, randomize=True)
+    greedy_col(graph1, randomize=True) # Randomized C, B, D A, E
+    
     graph1 = util.build_graph(path1, without_data=True)
-    opt_solution(graph1)
+    opt_solution(graph1) # Brute Force
 
     graph2 = util.build_graph(path2, without_data=False)
     greedy_col(graph2)
@@ -85,7 +87,7 @@ def greedy_col_inner(graph, list_order):
     for node in list_order:
         color_set = set()
         neighbors = list(graph.neighbors(node))
-        neighbour_colors = [
+        neighbour_colors = [ # get colors of neighbor
             graph.nodes[node]["color"]
             for node in graph.neighbors(node)
             if graph.nodes[node]["color"] and graph.nodes[node]["color"] != "inf"
