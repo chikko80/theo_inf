@@ -25,37 +25,37 @@ def print_colored_line(color):
     cprint( "---------------------------------------------------------------------------------------------", color)
 
 
-def print_header(message, color):
-    cprint( "---------------------------------------------------------------------------------------------", color)
-    cprint(message, color)
-    cprint( "---------------------------------------------------------------------------------------------", color)
-
-
 def main():
 
-    path1 = "sources/Euler2.txt"
-    path2 = "sources/Dijkstra10knoten.txt"
+    path1 = "kapitel2_src/Euler2.txt"
+    path2 = "kapitel2_src/NormalerGraph.txt"
+    path3 = "kapitel2_src/KreisGraph1.txt"
+    path4 = "kapitel2_src/KreisGraph2.txt"
+    path5 = "kapitel2_src/Planar1.txt"
+    path6 = "kapitel2_src/Dijkstra10knoten.txt"
 
-    graph1 = util.build_graph(path1, without_data=True)
-    greedy_col(graph1) # Normaler Greedy_Coloring A, B, C, D, E
+    def test_graph(path):
+        graph1 = util.build_graph(path, without_data=True)
+        greedy_col(graph1,path) # Normaler Greedy_Coloring A, B, C, D, E
+        
+        graph1 = util.build_graph(path, without_data=True)
+        greedy_col(graph1,path, randomize=True) # Randomized C, B, D A, E
+        
+        graph1 = util.build_graph(path, without_data=True)
+        opt_solution(graph1,path) # Brute Force
     
-    graph1 = util.build_graph(path1, without_data=True)
-    greedy_col(graph1, randomize=True) # Randomized C, B, D A, E
-    
-    graph1 = util.build_graph(path1, without_data=True)
-    opt_solution(graph1) # Brute Force
-
-    graph2 = util.build_graph(path2, without_data=False)
-    greedy_col(graph2)
-    graph2 = util.build_graph(path2, without_data=False)
-    greedy_col(graph2, randomize=True)
-    graph2 = util.build_graph(path2, without_data=False)
-    opt_solution(graph2)
+    test_graph(path1)
+    test_graph(path2)
+    test_graph(path3)
+    test_graph(path4)
+    test_graph(path5)
+    test_graph(path6)
 
 
 @decorator
-def greedy_col(graph, randomize=False):
+def greedy_col(graph,path, randomize=False):
     # util.draw_graph_with_labels(graph, simple=True)
+    path = path.split('/')[len(path.split('/'))-1]
 
     if randomize:
         list_order = list(graph.nodes())
@@ -67,11 +67,12 @@ def greedy_col(graph, randomize=False):
 
     graph_degree = get_max_degree(graph)[1]
     if randomize:
-        cprint("Randomized GreedyColoring", "red")
+        cprint(f"Randomized GreedyColoring - {path}", "red")
         print_colored_line("green")
     else:
-        cprint("Default GreedyColoring", "yellow")
+        cprint(f"Default GreedyColoring - {path}", "yellow")
         print_colored_line("green")
+    print("Anzahl der Knoten\t", len(graph.nodes()), "\t V")
     print("Grad des Graphen:\t", graph_degree, "\t deg(G)")
     print("Obere Schranke:\t\t", (graph_degree + 1), "\t Delta G + 1")
     print("Benötigte Farben:\t", max_color, "\t cV(ui)")
@@ -101,15 +102,19 @@ def greedy_col_inner(graph, list_order):
 
 
 @decorator
-def opt_solution(graph):
+def opt_solution(graph,path):
+
+    path = path.split('/')[len(path.split('/'))-1]
+
     list_of_nodes = list(graph.nodes())
     permutations = list(itertools.permutations(list_of_nodes))
     partial_func = functools.partial(greedy_col_inner, graph)
 
-    cprint("Optimale Lösung", "blue")
+    cprint(f"Optimale Lösung - {path}", "blue")
     print_colored_line("green")
 
     graph_degree = get_max_degree(graph)[1]
+    print("Anzahl der Knoten\t", len(graph.nodes()), "\t V")
     print("Grad des Graphen:\t", graph_degree, "\t deg(G)")
     print("Obere Schranke:\t\t", (graph_degree + 1), "\t Delta G + 1")
     print()
