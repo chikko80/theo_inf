@@ -17,10 +17,27 @@ class Edge:
         self.flow = int(flow) if type(flow) == int else None
         self.capacity = int(capacity) if capacity else None
 
+def get_color_map(graph):
+
+    colors = {
+        1 : 'red',
+        2 : 'blue',
+        3 : 'green',
+        4 : 'yellow',
+        5 : 'orange',
+    }
+
+    color_map = []
+    for node in graph.nodes():
+        color_map.append(colors[graph.nodes[node]['color']])
+        print(colors[graph.nodes[node]['color']])
+    return color_map
+
 
 def draw_graph_with_labels(graph, simple=False, save=False,path=None, flow_network=False):
     if simple and save and path:
-        nx.draw(graph, with_labels=True)
+        color_map = get_color_map(graph)
+        nx.draw(graph, node_color=color_map, with_labels=True)
         file_name = path.split('/')[len(path.split('/'))-1].replace('.txt','.png')
         plt.savefig(f'img/{file_name}')
         plt.clf()

@@ -13,12 +13,16 @@ knoten J
 # Kantendefinitionen 
 kante A D
 kante B D
-kante C D
+kante C J
 kante E D
+kante E F
 kante G D
-kante F D
+kante F A
 kante J D
 kante F H
 kante J E
 kante H I
 kante I J
+kante I B
+kante I H
+kante I E
