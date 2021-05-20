@@ -1,5 +1,5 @@
 import networkx as nx
-import matplotlib as plt
+from matplotlib import pyplot as plt
 import pylab
 
 
@@ -18,16 +18,23 @@ class Edge:
         self.capacity = int(capacity) if capacity else None
 
 
-def draw_graph_with_labels(graph, simple=False, flow_network=False):
-    if simple:
+def draw_graph_with_labels(graph, simple=False, save=False,path=None, flow_network=False):
+    if simple and save and path:
+        nx.draw(graph, with_labels=True)
+        file_name = path.split('/')[len(path.split('/'))-1].replace('.txt','.png')
+        plt.savefig(f'img/{file_name}')
+        plt.clf()
+
+    elif simple:
         nx.draw(graph, with_labels=True)
         pylab.show()
     else:
+
         pos = nx.spring_layout(graph, seed=17)
         nx.draw(graph, pos, with_labels=True)
         edge_labels = dict( [ ( ( u, v,), d["capacity"],) for u, v, d in graph.edges(data=True) ])
         nx.draw_networkx_edge_labels(graph, pos, edge_labels=edge_labels)
-        pylab.show()
+        pylab.show(block)
 
 
 def parser(path, without_data, flow_network):

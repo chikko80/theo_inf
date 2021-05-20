@@ -7,6 +7,7 @@ import random
 from termcolor import cprint, colored
 import multiprocessing
 import time
+from threading import Thread
 
 # http://discrete.openmathbooks.org/dmoi2/sec_paths.html#:~:text=A%20graph%20has%20an%20Euler%20circuit%20if%20and%20only%20if,two%20vertices%20with%20odd%20degree.
 
@@ -27,16 +28,20 @@ def print_colored_line(color):
 
 def main():
 
-    path1 = "kapitel2_src/Euler2.txt"
-    path2 = "kapitel2_src/NormalerGraph.txt"
-    path3 = "kapitel2_src/KreisGraph1.txt"
-    path4 = "kapitel2_src/KreisGraph2.txt"
-    path5 = "kapitel2_src/Planar1.txt"
-    path6 = "kapitel2_src/Dijkstra10knoten.txt"
+    path1 = "kapitel2_src/1_Euler2.txt"
+    path2 = "kapitel2_src/2_NormalerGraph.txt"
+    path3 = "kapitel2_src/3_KreisGraph1.txt"
+    path4 = "kapitel2_src/4_KreisGraph2.txt"
+    path5 = "kapitel2_src/5_Planar1.txt"
+    path6 = "kapitel2_src/6_Dijkstra10knoten.txt"
+    path7 = "kapitel2_src/7_Graph_10K.txt"
 
     def test_graph(path):
+
         graph1 = util.build_graph(path, without_data=True)
         greedy_col(graph1,path) # Normaler Greedy_Coloring A, B, C, D, E
+        # Thread(target=util.draw_graph_with_labels, args=(graph1),kwargs={'simple': True}).start()
+        util.draw_graph_with_labels(graph1,simple=True,save=True,path=path)
         
         graph1 = util.build_graph(path, without_data=True)
         greedy_col(graph1,path, randomize=True) # Randomized C, B, D A, E
@@ -50,6 +55,7 @@ def main():
     test_graph(path4)
     test_graph(path5)
     test_graph(path6)
+    test_graph(path7)
 
 
 @decorator
