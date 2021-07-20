@@ -16,8 +16,8 @@ def main():
         print("Libary Path: ", nx.dijkstra_path(graph, source, dest))
         print("Our Implementation: ", three_a(graph, source, dest))
 
-    test_dijkstra(graph1, "A", "D")
-    test_dijkstra(graph1, "H", "B")
+    # test_dijkstra(graph1, "A", "D")
+    # test_dijkstra(graph1, "H", "B")
     three_b(graph1)
 
 

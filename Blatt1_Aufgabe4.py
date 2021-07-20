@@ -17,7 +17,7 @@ def main():
     graph3 = util.build_graph(path3, without_data=True)
 
     # four_a(graph1)
-    four_a(graph2)
+    ford_fulkerson(graph2)
     # four_a(graph3)
 
 
@@ -55,6 +55,37 @@ def set_source_at_first(graph_nodes: list, source):
     graph_nodes.insert(0, source)
     return graph_nodes
 
+
+
+def ford_fulkerson(graph):
+    if not nx.is_directed(graph):
+        raise ValueError("This function is only defined for directed graphs.")
+    #create the residual graph and initialize the flow
+    residual_graph = graph.copy()
+    flow_graph = graph.copy()
+    #initilize the flow to 0 for all edges
+    for edge in flow_graph.edges_iter():
+        flow_graph.edge[edge[0]][edge[1]]['flow'] = 0
+    #create the residual graph
+    residual_graph.remove_edges_from(flow_graph.edges())
+    #create the queue and push the source node
+    queue = deque([(source, 0) for source in graph.nodes_iter()])
+    #while there is still something in the queue
+    while queue:
+        #get the first node from the queue
+        node, level = queue.popleft()
+        #if the node is not the sink node
+        if node != sink:
+            #for each neighbor of the node
+            for neighbor in residual_graph.neighbors_iter(node):
+                #if the flow on the edge is less than the capacity
+                if residual_graph.edge[node][neighbor]['capacity'] - residual_graph.edge[node][neighbor]['flow'] > 0:
+                    #add the flow to the edge
+                    residual_graph.edge[node][neighbor]['flow'] += 1
+                    #push the neighbor to the queue
+                    queue.append((neighbor, level + 1))
+    #return the flow_graph
+    return flow_graph
 
 if __name__ == "__main__":
     main()

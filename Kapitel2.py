@@ -35,27 +35,30 @@ def main():
     path5 = "kapitel2_src/5_Planar1.txt"
     path6 = "kapitel2_src/6_Dijkstra10knoten.txt"
     path7 = "kapitel2_src/7_Graph_10K.txt"
+    path8 = "kapitel2_src/weltkarte.txt"
 
     def test_graph(path):
 
         graph1 = util.build_graph(path, without_data=True)
         greedy_col(graph1,path) # Normaler Greedy_Coloring A, B, C, D, E
         # Thread(target=util.draw_graph_with_labels, args=(graph1),kwargs={'simple': True}).start()
-        util.draw_graph_with_labels(graph1,simple=True,save=True,path=path)
+        # util.draw_graph_with_labels(graph1,simple=True,save=True,path=path)
         
         graph1 = util.build_graph(path, without_data=True)
-        greedy_col(graph1,path, randomize=True) # Randomized C, B, D A, E
+        for _ in range(100):
+            greedy_col(graph1,path, randomize=True) # Randomized C, B, D A, E
         
         graph1 = util.build_graph(path, without_data=True)
-        opt_solution(graph1,path) # Brute Force
+        # opt_solution(graph1,path) # Brute Force
     
-    test_graph(path1)
-    test_graph(path2)
-    test_graph(path3)
-    test_graph(path4)
-    test_graph(path5)
-    test_graph(path6)
-    test_graph(path7)
+    # test_graph(path1)
+    # test_graph(path2)
+    # test_graph(path3)
+    # test_graph(path4)
+    # test_graph(path5)
+    # test_graph(path6)
+    # test_graph(path7)
+    test_graph(path8)
 
 
 @decorator
@@ -83,7 +86,7 @@ def greedy_col(graph,path, randomize=False):
     print("Obere Schranke:\t\t", (graph_degree + 1), "\t Delta G + 1")
     print("Benötigte Farben:\t", max_color, "\t cV(ui)")
     print()
-    print("Reihenfolge der Knoten:\t", list_order)
+    # print("Reihenfolge der Knoten:\t", list_order)
 
 
 def greedy_col_inner(graph, list_order):
@@ -147,6 +150,8 @@ def get_smallest_free_color(graph, neighbors_colors):
         if i not in neighbors_colors:
             return i
 
+
+def calculate_time(
 
 if __name__ == "__main__":
     main()

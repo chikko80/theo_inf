@@ -14,8 +14,8 @@ class Edge:
         self.first_node = first_node
         self.second_node = second_node
         self.weight = int(weight) if weight else None
-        self.flow = int(flow) if type(flow) == int else None
-        self.capacity = int(capacity) if capacity else None
+        self.flow = int(flow) if flow else 0
+        self.capacity = int(capacity) if capacity else 0
 
 def get_color_map(graph):
 
@@ -44,14 +44,18 @@ def draw_graph_with_labels(graph, simple=False, save=False,path=None, flow_netwo
 
     elif simple:
         nx.draw(graph, with_labels=True)
+        plt.savefig(f'img/tmp.png')
         pylab.show()
     else:
 
         pos = nx.spring_layout(graph, seed=17)
         nx.draw(graph, pos, with_labels=True)
-        edge_labels = dict( [ ( ( u, v,), d["capacity"],) for u, v, d in graph.edges(data=True) ])
+        if flow_network:
+            edge_labels = dict( [ ( ( u, v,), d["capacity"],) for u, v, d in graph.edges(data=True) ])
+        else:
+            edge_labels = dict( [ ( ( u, v,), d["weight"],) for u, v, d in graph.edges(data=True) ])
         nx.draw_networkx_edge_labels(graph, pos, edge_labels=edge_labels)
-        pylab.show(block)
+        pylab.show()
 
 
 def parser(path, without_data, flow_network):
